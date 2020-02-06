@@ -2,8 +2,13 @@
   text-align: center;
 }
 
+.board-row {
+  clear: both;
+}
 .square {
   width: 40px;
   height: 40px;
   background: #ffffff;
+  border: 1px solid black;
+  float: left;
 }
