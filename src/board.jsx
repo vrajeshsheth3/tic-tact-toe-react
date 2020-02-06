@@ -11,11 +11,15 @@ class Board extends React.Component {
   }
 
   getNextPlayer() {
-    return this.state.xIsNext ? "X" : "0";
+    return this.state.xIsNext ? "X" : "O";
   }
   handleClick(i) {
     // console.log(e, e.target);
+    let winner = this.isThereAWinner();
     const squares = this.state.squares.slice();
+    if (winner || squares[i]) {
+      return;
+    }
     squares[i] = this.getNextPlayer();
 
     this.setState({
@@ -34,7 +38,36 @@ class Board extends React.Component {
   }
 
   renderStatus() {
+    const winner = this.isThereAWinner();
+    if (winner) {
+      return winner + " wins!";
+    }
     return "Next Player: " + this.getNextPlayer();
+  }
+
+  isThereAWinner() {
+    let lines = [
+      [0, 1, 2],
+      [3, 4, 5],
+      [6, 7, 8],
+      [0, 3, 6],
+      [1, 4, 7],
+      [2, 5, 8],
+      [0, 4, 8],
+      [2, 4, 6]
+    ];
+
+    let squares = this.state.squares.slice();
+    for (var i = 0; i < lines.length; i++) {
+      const [a, b, c] = lines[i];
+      if (
+        squares[a] &&
+        squares[a] === squares[b] &&
+        squares[a] === squares[c]
+      ) {
+        return squares[a];
+      }
+    }
   }
 
   render() {
